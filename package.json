@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "handtrackjs": "^0.1.5",
     "node-osc": "^8.1.0",
     "ws": "^8.14.1"
   }

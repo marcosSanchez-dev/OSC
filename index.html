@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="styles.css" />
     <title>Control OSC</title>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/handtrackjs@0.0.24"></script> -->
   </head>
   <body>
     <button onclick="sendOscMessage()">Enviar texto OSC</button>
@@ -19,6 +20,19 @@
       step="0.001"
       value="0"
     />
+    <div style="width: 100%">
+      <video
+        id="webcam"
+        width="640"
+        height="480"
+        autoplay
+        muted
+        style="display: none"
+      ></video>
+      <canvas id="canvas" width="640" height="480"></canvas>
+    </div>
+
+    <script src="./main.js"></script>
 
     <script>
       document.getElementById("vol").addEventListener("input", function () {
