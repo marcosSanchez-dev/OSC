@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="styles.css" />
+    <title>Control OSC</title>
+  </head>
+  <body>
+    <button onclick="sendOscMessage()">Enviar texto OSC</button>
+    <button onclick="sequenceOne()">play secuencia 1</button>
+    <button onclick="sequenceTwo()">play secuencia 2</button>
+    <input
+      type="range"
+      id="vol"
+      name="vol"
+      min="0"
+      max="1"
+      step="0.001"
+      value="0"
+    />
+
+    <script>
+      document.getElementById("vol").addEventListener("input", function () {
+        const val = this.value;
+        const oscMessage = {
+          address: "/medias/Line_Patterns/Global/Line_Width",
+          args: [val],
+        };
+        const socketRange = new WebSocket("ws://localhost:8080");
+
+        socketRange.onopen = function (event) {
+          socketRange.send(JSON.stringify(oscMessage));
+        };
+      });
+
+      // web socket initialization
+
+      const socket = new WebSocket("ws://localhost:8080");
+
+      socket.onopen = function (event) {
+        console.log("Conectado al servidor WebSocket");
+      };
+
+      function moveSlider(val) {
+        console.log("val: ", val);
+        const oscMessage = {
+          address: "/medias/Line_Patterns/Global/Line_Width",
+          args: [1.0, "someString", "hola mndo"],
+        };
+        socket.send(JSON.stringify(oscMessage));
+      }
+
+      function sendOscMessage() {
+        const oscMessage = {
+          address: "/medias/Text_Generator/Font/Text/Note1",
+          args: [1.0, "someString", "hola mndo"],
+        };
+        socket.send(JSON.stringify(oscMessage));
+      }
+      function sequenceOne() {
+        const oscMessage = {
+          address: "/cues/selected/scenes/by_cell/col_1/scene1",
+          args: [1.0, "someString", "hola mndo"],
+        };
+        socket.send(JSON.stringify(oscMessage));
+      }
+      function sequenceTwo() {
+        const oscMessage = {
+          address: "/cues/selected/scenes/by_cell/scene2",
+          args: [1.0, "someString", "hola mndo"],
+        };
+        socket.send(JSON.stringify(oscMessage));
+      }
+    </script>
+  </body>
+</html>
