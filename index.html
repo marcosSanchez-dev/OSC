@@ -35,17 +35,20 @@
     <script src="./main.js"></script>
 
     <script>
-      document.getElementById("vol").addEventListener("input", function () {
-        const val = this.value;
+      function sendOscWithValue(val) {
         const oscMessage = {
           address: "/medias/Line_Patterns/Global/Line_Width",
           args: [val],
         };
         const socketRange = new WebSocket("ws://localhost:8080");
-
         socketRange.onopen = function (event) {
           socketRange.send(JSON.stringify(oscMessage));
         };
+      }
+
+      document.getElementById("vol").addEventListener("input", function () {
+        const val = this.value;
+        sendOscWithValue(val);
       });
 
       // web socket initialization
