@@ -40,16 +40,13 @@ function runDetection(model) {
     if (predictions.length) {
       const hand = predictions[0];
 
-      if (hand.label === "open") {
-        const handPositionX = hand.bbox[0] + hand.bbox[2] / 2;
-        const relativePosition = handPositionX / video.width;
-        volumeSlider.value = Math.min(
-          1,
-          Math.max(0, relativePosition.toFixed(3))
-        );
-
-        sendOscWithValue(volumeSlider.value); // Llamada a la función para enviar el mensaje OSC
-      }
+      const handPositionX = hand.bbox[0] + hand.bbox[2] / 2;
+      const relativePosition = handPositionX / video.width;
+      volumeSlider.value = Math.min(
+        1,
+        Math.max(0, relativePosition.toFixed(3))
+      );
+      sendOscWithValue(volumeSlider.value); // Llamada a la función para enviar el mensaje OSC
     }
 
     model.renderPredictions(predictions, canvas, context, video);
