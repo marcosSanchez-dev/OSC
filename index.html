@@ -35,32 +35,49 @@
     <script src="./main.js"></script>
 
     <script>
+      const socket = new WebSocket("ws://localhost:8080");
+
       function sendOscWithValue(val) {
         const oscMessage = {
           address: "/medias/Line_Patterns/Global/Line_Width",
           args: [val],
         };
-        const socketRange = new WebSocket("ws://localhost:8080");
-        socketRange.onopen = function (event) {
-          socketRange.send(JSON.stringify(oscMessage));
-        };
+        // Utilizamos el socket ya creado
+        if (socket.readyState === WebSocket.OPEN) {
+          socket.send(JSON.stringify(oscMessage));
+        }
       }
 
+      window.addEventListener("beforeunload", function () {
+        socket.close();
+      });
+
       document.getElementById("vol").addEventListener("input", function () {
-        const val = this.value;
+        const val = this.value * 2;
         sendOscWithValue(val);
       });
 
       // web socket initialization
-
-      const socket = new WebSocket("ws://localhost:8080");
-
       socket.onopen = function (event) {
         console.log("Conectado al servidor WebSocket");
       };
 
+      socket.onerror = function (error) {
+        console.error("Error en la conexión WebSocket:", error);
+      };
+
+      socket.onclose = function (event) {
+        if (event.wasClean) {
+          console.log(
+            `[CERRADO] Conexión cerrada limpiamente, código=${event.code}, razón=${event.reason}`
+          );
+        } else {
+          // Ejemplo: el servidor cierra la conexión abruptamente
+          console.error("[CERRADO] Conexión muerta");
+        }
+      };
+
       function moveSlider(val) {
-        console.log("val: ", val);
         const oscMessage = {
           address: "/medias/Line_Patterns/Global/Line_Width",
           args: [1.0, "someString", "hola mndo"],

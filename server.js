@@ -16,4 +16,8 @@ wss.on("connection", (ws) => {
   });
 });
 
+wss.on("error", (error) => {
+  console.error("Error en el servidor WebSocket:", error);
+});
+
 console.log("Servidor WebSocket escuchando en el puerto 8080");
