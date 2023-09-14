@@ -1,13 +1,20 @@
+const express = require("express");
+const http = require("http");
 const WebSocket = require("ws");
 const osc = require("node-osc");
 
-const wss = new WebSocket.Server({ port: 8080 });
-const oscClient = new osc.Client("127.0.0.1", 8010); // IP y puerto de MadMapper
+const app = express();
+
+// Sirve todos los archivos estáticos desde la carpeta 'public'
+app.use(express.static("public"));
+
+const server = http.createServer(app);
+const wss = new WebSocket.Server({ server });
+const oscClient = new osc.Client("127.0.0.1", 8010);
 
 wss.on("connection", (ws) => {
   ws.on("message", (message) => {
     try {
-      // Asumimos que el mensaje es una cadena JSON con 'address' y 'args' como claves.
       const oscMessage = JSON.parse(message);
       oscClient.send(oscMessage.address, ...oscMessage.args);
     } catch (error) {
@@ -16,8 +23,6 @@ wss.on("connection", (ws) => {
   });
 });
 
-wss.on("error", (error) => {
-  console.error("Error en el servidor WebSocket:", error);
+server.listen(8080, () => {
+  console.log("Servidor escuchando en el puerto 8080");
 });
-
-console.log("Servidor WebSocket escuchando en el puerto 8080");

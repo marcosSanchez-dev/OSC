@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "express": "^4.18.2",
     "handtrackjs": "0.0.13",
     "node-osc": "^8.1.0",
     "parcel": "^2.9.3",
