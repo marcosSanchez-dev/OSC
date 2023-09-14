@@ -11,16 +11,53 @@
     <button onclick="sendOscMessage()">Enviar texto OSC</button>
     <button onclick="sequenceOne()">play secuencia 1</button>
     <button onclick="sequenceTwo()">play secuencia 2</button>
-    <input
-      type="range"
-      id="vol"
-      name="vol"
-      min="0"
-      max="1"
-      step="0.001"
-      value="0"
-    />
-    <div style="width: 100%">
+    <div class="slider-group">
+      <label for="vol">Volumen:</label>
+      <input
+        type="range"
+        id="vol"
+        name="vol"
+        min="0"
+        max="1"
+        step="0.001"
+        value="0"
+      />
+
+      <label for="red">Rojo:</label>
+      <input
+        type="range"
+        id="red"
+        name="vol"
+        min="0"
+        max="1"
+        step="0.001"
+        value="0"
+      />
+
+      <label for="green">Verde:</label>
+      <input
+        type="range"
+        id="green"
+        name="vol"
+        min="0"
+        max="1"
+        step="0.001"
+        value="0"
+      />
+
+      <label for="blue">Azul:</label>
+      <input
+        type="range"
+        id="blue"
+        name="vol"
+        min="0"
+        max="1"
+        step="0.001"
+        value="0"
+      />
+    </div>
+
+    <div>
       <video
         id="webcam"
         width="1040"
@@ -48,6 +85,39 @@
         }
       }
 
+      function sendOscRedValue(val) {
+        const oscMessage = {
+          address: "/medias/Solid_Color/Color/Color/red",
+          args: [val],
+        };
+        // Utilizamos el socket ya creado
+        if (socket.readyState === WebSocket.OPEN) {
+          socket.send(JSON.stringify(oscMessage));
+        }
+      }
+
+      function sendOscGreenValue(val) {
+        const oscMessage = {
+          address: "/medias/Solid_Color/Color/Color/green",
+          args: [val],
+        };
+        // Utilizamos el socket ya creado
+        if (socket.readyState === WebSocket.OPEN) {
+          socket.send(JSON.stringify(oscMessage));
+        }
+      }
+
+      function sendOscBlueValue(val) {
+        const oscMessage = {
+          address: "/medias/Solid_Color/Color/Color/blue",
+          args: [val],
+        };
+        // Utilizamos el socket ya creado
+        if (socket.readyState === WebSocket.OPEN) {
+          socket.send(JSON.stringify(oscMessage));
+        }
+      }
+
       window.addEventListener("beforeunload", function () {
         socket.close();
       });
@@ -55,6 +125,18 @@
       document.getElementById("vol").addEventListener("input", function () {
         const val = this.value * 2;
         sendOscWithValue(val);
+      });
+      document.getElementById("red").addEventListener("input", function () {
+        const val = this.value;
+        sendOscRedValue(val);
+      });
+      document.getElementById("green").addEventListener("input", function () {
+        const val = this.value;
+        sendOscGreenValue(val);
+      });
+      document.getElementById("blue").addEventListener("input", function () {
+        const val = this.value;
+        sendOscBlueValue(val);
       });
 
       // web socket initialization
