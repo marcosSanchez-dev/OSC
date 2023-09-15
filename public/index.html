@@ -47,7 +47,9 @@
         value="0"
       />
 
-      <label for="blue">OSC Frecuency:</label>
+      <h1>
+        <label for="blue" style="font-size: 32px">OSC Frecuency:</label>
+      </h1>
       <input
         type="range"
         id="frecuency"
@@ -99,7 +101,7 @@
 
       function sendOscRedValue(val) {
         const oscMessage = {
-          address: "/medias/Solid_Color/Color/Color/red",
+          address: "/fixtures/Group-1/color/red",
           args: [val],
         };
         // Utilizamos el socket ya creado
@@ -110,7 +112,7 @@
 
       function sendOscGreenValue(val) {
         const oscMessage = {
-          address: "/medias/Solid_Color/Color/Color/green",
+          address: "/fixtures/Group-1/color/green",
           args: [val],
         };
         // Utilizamos el socket ya creado
@@ -121,7 +123,7 @@
 
       function sendOscBlueValue(val) {
         const oscMessage = {
-          address: "/medias/Solid_Color/Color/Color/blue",
+          address: "/fixtures/Group-1/color/blue",
           args: [val],
         };
         // Utilizamos el socket ya creado
