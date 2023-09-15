@@ -8,26 +8,17 @@
     <!-- <script src="https://cdn.jsdelivr.net/npm/handtrackjs@0.0.24"></script> -->
   </head>
   <body>
-    <button onclick="sendOscMessage()">Enviar texto OSC</button>
-    <button onclick="sequenceOne()">play secuencia 1</button>
-    <button onclick="sequenceTwo()">play secuencia 2</button>
-    <div class="slider-group">
-      <label for="vol">Volumen:</label>
-      <input
-        type="range"
-        id="vol"
-        name="vol"
-        min="0"
-        max="1"
-        step="0.001"
-        value="0"
-      />
-
+    <section>
+      <button onclick="sendOscMessage()">Enviar texto OSC</button>
+      <button onclick="sequenceOne()">play secuencia 1</button>
+      <button onclick="sequenceTwo()">play secuencia 2</button>
+    </section>
+    <section class="slider-group">
       <label for="red">Rojo:</label>
       <input
         type="range"
         id="red"
-        name="vol"
+        name="red"
         min="0"
         max="1"
         step="0.001"
@@ -38,7 +29,7 @@
       <input
         type="range"
         id="green"
-        name="vol"
+        name="green"
         min="0"
         max="1"
         step="0.001"
@@ -49,25 +40,35 @@
       <input
         type="range"
         id="blue"
+        name="blue"
+        min="0"
+        max="1"
+        step="0.001"
+        value="0"
+      />
+    </section>
+
+    <section>
+      <label for="vol">lineWidth:</label>
+      <input
+        type="range"
+        id="vol"
         name="vol"
         min="0"
         max="1"
         step="0.001"
         value="0"
       />
-    </div>
-
-    <div>
       <video
         id="webcam"
-        width="1040"
-        height="480"
+        width="250"
+        height="200"
         autoplay
         muted
         style="display: none"
       ></video>
-      <canvas id="canvas" width="640" height="480"></canvas>
-    </div>
+      <canvas id="canvas" width="250" height="200"></canvas>
+    </section>
 
     <script src="./main.js"></script>
 
