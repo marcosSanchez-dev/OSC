@@ -11,6 +11,7 @@ app.use(express.static("public"));
 const server = http.createServer(app);
 const wss = new WebSocket.Server({ server });
 const oscClient = new osc.Client("127.0.0.1", 8010);
+const oscServer = new osc.Server(7099, "0.0.0.0");
 
 wss.on("connection", (ws) => {
   ws.on("message", (message) => {
@@ -25,4 +26,12 @@ wss.on("connection", (ws) => {
 
 server.listen(8080, () => {
   console.log("Servidor escuchando en el puerto 8080");
+});
+
+oscServer.on("message", function (msg, rinfo) {
+  wss.clients.forEach((client) => {
+    if (client.readyState === WebSocket.OPEN) {
+      client.send(JSON.stringify({ address: msg[0], value: msg[1] }));
+    }
+  });
 });

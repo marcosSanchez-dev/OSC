@@ -46,6 +46,17 @@
         step="0.001"
         value="0"
       />
+
+      <label for="blue">OSC Frecuency:</label>
+      <input
+        type="range"
+        id="frecuency"
+        name="frecuency"
+        min="0"
+        max="1"
+        step="0.001"
+        value="0"
+      />
     </section>
 
     <section>
@@ -73,7 +84,7 @@
     <script src="./main.js"></script>
 
     <script>
-      const socket = new WebSocket("ws://192.168.68.118:8080");
+      const socket = new WebSocket("ws://192.168.68.108:8080");
 
       function sendOscWithValue(val) {
         const oscMessage = {
@@ -118,6 +129,16 @@
           socket.send(JSON.stringify(oscMessage));
         }
       }
+      function sendOscFrecuencyValue(val) {
+        const oscMessage = {
+          address: "/medias/Solid_Color/Color/Color/alpha",
+          args: [val],
+        };
+        // Utilizamos el socket ya creado
+        if (socket.readyState === WebSocket.OPEN) {
+          socket.send(JSON.stringify(oscMessage));
+        }
+      }
 
       window.addEventListener("beforeunload", function () {
         socket.close();
@@ -139,6 +160,12 @@
         const val = this.value;
         sendOscBlueValue(val);
       });
+      document
+        .getElementById("frecuency")
+        .addEventListener("input", function () {
+          const val = this.value;
+          sendOscFrecuencyValue(val);
+        });
 
       // web socket initialization
       socket.onopen = function (event) {
@@ -157,6 +184,23 @@
         } else {
           // Ejemplo: el servidor cierra la conexión abruptamente
           console.error("[CERRADO] Conexión muerta");
+        }
+      };
+
+      function triggerInputEvent(element) {
+        const event = new Event("input", {
+          bubbles: true,
+          cancelable: true,
+        });
+        element.dispatchEvent(event);
+      }
+
+      socket.onmessage = function (event) {
+        const oscData = JSON.parse(event.data);
+        if (oscData.address === "/abletonWeb") {
+          const slider = document.getElementById("frecuency");
+          slider.value = oscData.value;
+          triggerInputEvent(slider);
         }
       };
 
