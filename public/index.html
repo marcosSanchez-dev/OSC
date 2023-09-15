@@ -130,9 +130,10 @@
         }
       }
       function sendOscFrecuencyValue(val) {
+        const numValue = parseFloat(val);
         const oscMessage = {
-          address: "/medias/Solid_Color/Color/Color/alpha",
-          args: [val],
+          address: "/abletonWww",
+          args: [numValue],
         };
         // Utilizamos el socket ya creado
         if (socket.readyState === WebSocket.OPEN) {
