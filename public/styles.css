@@ -2,8 +2,9 @@
 body {
   font-family: "Arial", sans-serif;
   height: 100vh;
-  background-color: #f5f5f5;
+  background-color: hsl(0, 0%, 96%);
   text-align: center;
+  overflow: hidden;
 }
 
 button {
@@ -62,8 +63,8 @@ input[type="range"]::-moz-range-track {
 
 /* Estilizar el pulgar del slider */
 input[type="range"]::-webkit-slider-thumb {
-  height: 16px;
-  width: 16px;
+  height: 20px;
+  width: 20px;
   border-radius: 50%;
   background: #555555;
   cursor: pointer;
@@ -71,8 +72,8 @@ input[type="range"]::-webkit-slider-thumb {
   margin-top: -5px;
 }
 input[type="range"]::-moz-range-thumb {
-  height: 16px;
-  width: 16px;
+  height: 20px;
+  width: 20px;
   border-radius: 50%;
   background: #555555;
   cursor: pointer;
